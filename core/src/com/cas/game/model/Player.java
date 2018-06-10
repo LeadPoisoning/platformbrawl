@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.cas.game.view.GameScreen;
+import com.cas.game.controller.LevelController;
 
 import java.util.HashMap;
 
@@ -23,14 +23,14 @@ public class Player {
     private HashMap<String, Animation<TextureRegion>> animations;
 
     public Player(int width, int height) {
-        this.width = width/16f;
-        this.height = height/16f;
+        this.width = width*LevelController.UNIT_SCALE;
+        this.height = height*LevelController.UNIT_SCALE;
         spriteSheet = new SpriteSheet("img/shad.png",width,height);
         animations = new HashMap<String, Animation<TextureRegion>>();
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body playerBody = GameScreen.gameWorld.createBody(bodyDef);
+        Body playerBody = LevelController.gameWorld.createBody(bodyDef);
         playerBody.setUserData(this);
 
         // Attaches rectangular fixture to sprite
