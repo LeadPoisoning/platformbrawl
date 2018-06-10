@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.cas.game.model.Player;
 
 public class GameScreen implements Screen {
@@ -19,9 +22,14 @@ public class GameScreen implements Screen {
     public Batch spriteBatch;
     public Player player;
 
+    public static World gameWorld;
+    private Box2DDebugRenderer debugRenderer;
+
     public GameScreen() {
         stage = new TmxMapLoader().load("stages/stage01.tmx");
         renderer = new OrthogonalTiledMapRenderer(stage, 1/16f);
+        gameWorld = new World(new Vector2(0, -10),true);
+        debugRenderer = new Box2DDebugRenderer();
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -29,7 +37,7 @@ public class GameScreen implements Screen {
         camera.position.set(36, 32, 0);
 
         spriteBatch = renderer.getBatch();
-        player = new Player();
+        player = new Player(64,80);
 
 
     }
@@ -52,6 +60,8 @@ public class GameScreen implements Screen {
         spriteBatch.begin();
         player.draw(spriteBatch);
         spriteBatch.end();
+
+        debugRenderer.render(gameWorld, camera.combined);
     }
 
     @Override

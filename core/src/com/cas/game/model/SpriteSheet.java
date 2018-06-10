@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteSheet {
 
     public TextureRegion[] spriteFrames;
-    public Animation <TextureRegion> animation;
     public Texture spriteSheet;
 
     public SpriteSheet(String pathToFile, int w, int h) {
@@ -33,13 +32,23 @@ public class SpriteSheet {
         }
     }
 
-    public Animation<TextureRegion> getAnimation(int startFrame, int endFrame) {
+    public Animation<TextureRegion> getAnimation(int startFrame, int endFrame, float fps) {
         TextureRegion[] animationFrames = new TextureRegion[endFrame - startFrame + 1];
         for (int i = startFrame; i <= endFrame; i++) {
             animationFrames[i] = spriteFrames[i];
         }
-        animation = new Animation<TextureRegion>(1/16f, animationFrames);
+        return new Animation<TextureRegion>(1/fps, animationFrames);
+    }
 
-        return animation;
+    public Animation<TextureRegion> flipAnimation(Animation<TextureRegion> originalAnimation, boolean flipx, boolean flipy) {
+        int frameCount = originalAnimation.getKeyFrames().length;
+        TextureRegion[] flippedFrames = new TextureRegion[frameCount];
+
+        for (int i = 0; i <= frameCount - 1; i++) {
+            flippedFrames[i] = new TextureRegion(originalAnimation.getKeyFrames()[i]);
+            flippedFrames[i].flip(true, false);
+        }
+
+        return new Animation<TextureRegion>(originalAnimation.getFrameDuration(), flippedFrames);
     }
 }
