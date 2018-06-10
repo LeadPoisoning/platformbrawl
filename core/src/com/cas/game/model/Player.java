@@ -18,7 +18,7 @@ public class Player {
         width = 64;
         height = 80;
         spriteSheet = new SpriteSheet("img/shad.png",width,height);
-        animation = spriteSheet.getAnimation();
+        animation = spriteSheet.getAnimation(0, 7);
         position = new Vector2(32f,28f);
         stateTime = 0f;
 

@@ -34,8 +34,8 @@ public class SpriteSheet {
     }
 
     public Animation<TextureRegion> getAnimation(int startFrame, int endFrame) {
-        TextureRegion[] animationFrames = new TextureRegion[endFrame-startFrame];
-        for (int i = startFrame; i < endFrame-1; i++) {
+        TextureRegion[] animationFrames = new TextureRegion[endFrame - startFrame + 1];
+        for (int i = startFrame; i <= endFrame; i++) {
             animationFrames[i] = spriteFrames[i];
         }
         animation = new Animation<TextureRegion>(1/16f, animationFrames);
