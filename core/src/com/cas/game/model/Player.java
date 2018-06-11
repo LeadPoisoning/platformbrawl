@@ -1,62 +1,50 @@
 package com.cas.game.model;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.cas.game.controller.LevelController;
 
-import java.util.HashMap;
+public class Player extends Sprite {
 
-public class Player {
-    public Vector2 position;
-    public SpriteSheet spriteSheet;
-    public float width;
-    public float height;
-    public String currentAnimation;
 
-    private float stateTime;
-    private HashMap<String, Animation<TextureRegion>> animations;
-
-    public Player(int width, int height) {
-        this.width = width*LevelController.UNIT_SCALE;
-        this.height = height*LevelController.UNIT_SCALE;
-        spriteSheet = new SpriteSheet("img/shad.png",width,height);
-        animations = new HashMap<String, Animation<TextureRegion>>();
+    public Player(Vector2 position, int width, int height) {
+        super(position, width, height);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body playerBody = LevelController.gameWorld.createBody(bodyDef);
-        playerBody.setUserData(this);
+        bodyDef.position.set(position);
+        physicsBody = LevelController.gameWorld.createBody(bodyDef);
+        physicsBody.setUserData(this);
 
         // Attaches rectangular fixture to sprite
         PolygonShape rectShape = new PolygonShape();
-        rectShape.setAsBox(this.width/2,this.height/2,new Vector2(this.width/2,this.height/2), 0f);
+        rectShape.setAsBox(this.width/2f,this.height/2f, new Vector2(this.width/2f,this.height/2f), 0f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = rectShape;
-        playerBody.createFixture(fixtureDef);
+        physicsBody.createFixture(fixtureDef);
 
         rectShape.dispose();
 
 
         animations.put("walkRight", spriteSheet.getAnimation(0, 7, 12));
         animations.put("walkLeft", spriteSheet.flipAnimation(animations.get("walkRight"), true, false));
-        currentAnimation = "walkLeft";
-
-        position = new Vector2(32f,28f);
-        stateTime = 0f;
+        currentAnimation = "walkRight";
 
     }
 
     public void draw(Batch spriteBatch) {
-        spriteBatch.draw(animations.get(currentAnimation).getKeyFrame(stateTime, true), position.x, position.y, width, height);
+        super.draw(spriteBatch);
     }
 
     public void update(float deltaTime) {
-        stateTime += deltaTime;
+        if (this.physicsBody.getLinearVelocity().x > 0) {
+            currentAnimation = "walkRight";
+        } else if (this.physicsBody.getLinearVelocity().x < 0) {
+            currentAnimation = "walkLeft";
+        }
+        super.update(deltaTime);
     }
 }
