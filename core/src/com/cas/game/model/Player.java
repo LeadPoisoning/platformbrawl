@@ -11,15 +11,17 @@ public class Player extends Sprite {
 
 
     public Player(Vector2 position, int width, int height) {
-        super(position, width, height);
+        // constructor of parent
+        super("img/shad.png", position, width, height);
 
+        // creates dynamic body in the location of the player
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position);
         physicsBody = LevelController.gameWorld.createBody(bodyDef);
         physicsBody.setUserData(this);
 
-        // Attaches rectangular fixture to sprite
+        // Attaches correctly sized rectangular fixture to body
         PolygonShape rectShape = new PolygonShape();
         rectShape.setAsBox(this.width/2f,this.height/2f, new Vector2(this.width/2f,this.height/2f), 0f);
         FixtureDef fixtureDef = new FixtureDef();
@@ -28,8 +30,9 @@ public class Player extends Sprite {
 
         rectShape.dispose();
 
-
+        // create a right-facing walk animation and put it in animations
         animations.put("walkRight", spriteSheet.getAnimation(0, 7, 12));
+        // create a left-facing walk animation by flipping the first animation
         animations.put("walkLeft", spriteSheet.flipAnimation(animations.get("walkRight"), true, false));
         currentAnimation = "walkRight";
 

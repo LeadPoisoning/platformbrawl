@@ -22,9 +22,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        // puts blue color on background
         Gdx.gl.glClearColor(0.75f, 0.89f, 0.93f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // update everything
         CameraController.update();
         LevelController.update(delta);
         PlayerController.update(delta);

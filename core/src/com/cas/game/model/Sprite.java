@@ -19,20 +19,20 @@ public class Sprite {
     private float stateTime;
     protected HashMap<String, Animation<TextureRegion>> animations;
 
-    public Sprite(Vector2 position, int width, int height) {
+    public Sprite(String pathToFile, Vector2 position, int width, int height) {
         this.position = position;
         this.width = width* LevelController.UNIT_SCALE;
         this.height = height*LevelController.UNIT_SCALE;
-        spriteSheet = new SpriteSheet("img/shad.png",width,height);
+        spriteSheet = new SpriteSheet(pathToFile,width,height);
         animations = new HashMap<String, Animation<TextureRegion>>();
         stateTime = 0f;
+        // state time starts at zero and increments for the duration that the sprite is on the screen
     }
 
     public void draw(Batch spriteBatch) {
         spriteBatch.draw(animations.get(currentAnimation).getKeyFrame(stateTime, true), position.x, position.y, width, height);
     }
 
-    public void update(float deltaTime) {
-        stateTime += deltaTime;
-    }
+    public void update(float deltaTime) {stateTime += deltaTime;}
+    // used to update the state time, which is used in all other update functions
 }

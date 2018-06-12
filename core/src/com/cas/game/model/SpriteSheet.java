@@ -14,8 +14,11 @@ public class SpriteSheet {
 
         int spriteCount = 0;
         spriteSheet = new Texture(Gdx.files.internal(pathToFile));
+
+        // chops up texture into a 2d array of texture regions
         TextureRegion[][] spriteSheetFrames = TextureRegion.split(spriteSheet,w,h);
 
+        // counts number of texture regions
         for(int i = 0; i < spriteSheetFrames.length; i++) {
             for (int j = 0; j < spriteSheetFrames[i].length; j++) {
                 spriteCount++;
@@ -25,6 +28,7 @@ public class SpriteSheet {
         spriteFrames = new TextureRegion[spriteCount];
         spriteCount = 0;
 
+        // maps texture regions in 2d array to a 1d array of texture regions
         for(int i =0; i < spriteSheetFrames.length; i++) {
             for (int j = 0; j < spriteSheetFrames[i].length; j++) {
                 spriteFrames[spriteCount++] = spriteSheetFrames[i][j];
@@ -46,7 +50,7 @@ public class SpriteSheet {
 
         for (int i = 0; i <= frameCount - 1; i++) {
             flippedFrames[i] = new TextureRegion(originalAnimation.getKeyFrames()[i]);
-            flippedFrames[i].flip(true, false);
+            flippedFrames[i].flip(flipx, flipy);
         }
 
         return new Animation<TextureRegion>(originalAnimation.getFrameDuration(), flippedFrames);

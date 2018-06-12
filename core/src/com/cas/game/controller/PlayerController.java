@@ -25,6 +25,7 @@ public class PlayerController {
     }
 
     private static void handleInput() {
+        // To Do: Move to InputController
         Vector2 velocity = player.physicsBody.getLinearVelocity();
         Vector2 position = player.physicsBody.getPosition();
 

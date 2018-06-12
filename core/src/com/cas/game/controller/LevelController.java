@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.cas.game.model.Bodies;
 import com.cas.game.model.Level;
-import com.cas.game.model.Player;
 import com.cas.game.model.Sprite;
 
 public class LevelController {
@@ -66,6 +65,7 @@ public class LevelController {
     }
 
     private static void createLevelBodies() {
+        // gets all map objects in certain layer
         MapObjects mapObjects = level.getMapObjects(level.getMapLayer("collision"));
 
         for (MapObject mapObject : mapObjects) {
